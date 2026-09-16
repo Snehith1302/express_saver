@@ -1,24 +1,17 @@
-const getStudents=(req,res)=>{
-    res.json([
-        {
-            name:"Virat",
-            branch:"CSE",
-        },
-        {
-            name:"Rohit",
-            branch:"AIML",
-        },
-        {
-            name:"Rahul",
-            branch:"DS",
-        }
-    ])
-}
+const Student=require("../models/studentModel")
 
-const addStudent=(req,res)=>{
-    res.json({
-        message:"New student added"
+const getStudents=async (req,res)=>{
+    const students=await Student.find()
+
+    res.status(200).json({
+        data:students
     })
 }
 
-module.exports={getStudents,addStudent}
+// const addStudent=(req,res)=>{
+//     res.json({
+//         message:"New student added"
+//     })
+// }
+
+module.exports={getStudents}

@@ -1,4 +1,5 @@
 const Student=require("../models/studentModel")
+const bcrypt=require("bcryptjs")
 
 const login=(req,res)=>{
 
@@ -21,11 +22,12 @@ if(existingStudent){
     })
 }
 
+const encryptPass=await bcrypt.hash(password,4)
 
 const student=await Student.create({
     name:name,
     email:email,
-    password:password,
+    password:encryptPass,
     branch:branch,
     age:age
 })
