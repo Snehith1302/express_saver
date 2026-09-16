@@ -1,28 +1,10 @@
 const express=require("express")
+const { getStudents, addStudent } = require("../controllers/studentControllers")
 
 const studentRoute=express.Router()
 
-studentRoute.get("/students",(req,res)=>{
-    res.json([
-        {
-            name:"Virat",
-            branch:"CSE",
-        },
-        {
-            name:"Rohit",
-            branch:"AIML",
-        },
-        {
-            name:"Rahul",
-            branch:"DS",
-        }
-    ])
-})
+studentRoute.get("/students",getStudents)
 
-studentRoute.post("/students",(req,res)=>{
-    res.json({
-        message:"New student added"
-    })
-})
+studentRoute.post("/students",addStudent)
 
 module.exports=studentRoute
