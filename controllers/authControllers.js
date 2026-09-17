@@ -1,8 +1,29 @@
 const Student=require("../models/studentModel")
 const bcrypt=require("bcryptjs")
 
-const login=(req,res)=>{
+const login=async(req,res)=>{
+    const {email,password}=req.body
+    if(!email || !password){
+        return res.status(400).json(({
+            message:"Invalid input"
+        }))
+    }
+    const existingStudent = await Student.findOne({email : email})
 
+    if(!existingStudent){
+        return res.status(400).json({
+            message:"User is not registered"
+        })
+    }
+    const checkPassword=await bcrypt.compare(password,existingStudent.password)
+    if(!checkPassword){
+        return res.status(400).json({
+            message:"Wrong password"
+        })
+    }
+    res.status(200).json({
+        message:"Login successful"
+    })
 }
 
 const signup=async (req,res)=>{
@@ -15,6 +36,7 @@ const signup=async (req,res)=>{
     }
 
 const existingStudent = await Student.findOne({email : email})
+//check for duplicate
 
 if(existingStudent){
     return res.status(400).json({
